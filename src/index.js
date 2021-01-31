@@ -1,17 +1,41 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import Routers from 'routes'
+import {Provider} from "react-redux";
+import {BrowserRouter} from 'react-router-dom'
+import {createGlobalStyle} from "styled-components"
+import {applyMiddleware, createStore} from "redux";
+import {composeWithDevTools} from "redux-devtools-extension";
+import ReduxThunk from "redux-thunk";
+import rootReducer from "reducers";
+import {persistStore} from "redux-persist";
+
+const GlobalStyle = createGlobalStyle`
+#app{
+min-height: 100%;
+display: flex;
+align-items: stretch;
+justify-content: stretch;
+}
+html,body{
+height: 100%;
+padding: 0;
+margin: 0;
+}`
+
+const store = createStore(
+    rootReducer,
+    composeWithDevTools(applyMiddleware(ReduxThunk))
+)
+//const persistor = persistStore(store);
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+    <Provider store={store}>
+        <GlobalStyle/>
+            <BrowserRouter>
+                <Routers/>
+            </BrowserRouter>
+        </Provider>,
+    document.getElementById('root')
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
