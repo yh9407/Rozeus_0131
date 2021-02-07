@@ -9,18 +9,37 @@ import {composeWithDevTools} from "redux-devtools-extension";
 import ReduxThunk from "redux-thunk";
 import rootReducer from "reducers";
 import {persistStore} from "redux-persist";
+import reset from "styled-reset";
+import Theme from "./theme";
 
 const GlobalStyle = createGlobalStyle`
-#app{
-min-height: 100%;
-display: flex;
-align-items: stretch;
-justify-content: stretch;
-}
-html,body{
-height: 100%;
-padding: 0;
-margin: 0;
+   ${reset}
+    *{
+        box-sizing:border-box;
+    }
+    body{
+        font-size:14px;
+        font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    }
+    a{
+        text-decoration:none;
+        color:inherit;
+        cursor: pointer;
+    }
+    ol, ul, li {
+        list-style: none;
+    }
+    img {
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+    input, button {
+        background-color: transparent;
+    }
+    h1, h2, h3, h4, h5, h6 {
+    font-family:'Maven Pro', sans-serif;
+  }
 }`
 
 const store = createStore(
@@ -32,10 +51,10 @@ const store = createStore(
 ReactDOM.render(
     <Provider store={store}>
         <GlobalStyle/>
-            <BrowserRouter>
+        <BrowserRouter>
                 <Routers/>
-            </BrowserRouter>
-        </Provider>,
+        </BrowserRouter>
+    </Provider>,
     document.getElementById('root')
 );
 
