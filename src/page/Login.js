@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from "react"
 import styled, {ThemeProvider} from "styled-components"
 import {useDispatch, useSelector} from "react-redux";
-import {userLoginBtn} from "../actions/authAction";
+import {appLoginRequest, loginInit, userLoginBtn} from "../actions/authAction";
 import Theme from "../theme";
 import theme from "../theme";
 import {Link} from "react-router-dom";
@@ -9,6 +9,7 @@ import Naver from "../component/socialLogin/Naver";
 import Kakao from "../component/socialLogin/Kakao";
 import Google from "../component/socialLogin/Google";
 import Facebook from "../component/socialLogin/Facebook";
+import ErrorBoxLogin from "../component/auth/errorBoxLogin";
 
 const PageStyle = styled.div`
 display: flex;
@@ -21,7 +22,7 @@ margin: 1em 0 0 0 ;
   display: grid;
   grid-template-rows: 0.5fr 1fr 0.5fr;
   min-height: 600px;
-  max-width: 600px;
+  max-width: 500px;
   width: 90%;
   align-items: center;
   justify-items: center;
@@ -89,13 +90,15 @@ margin: 1em 0 0 0 ;
 
 const Login = (props) => {
     const dispatch = useDispatch();
-const isLoggedIn = useSelector((state)=> state.auth.login.success)
+    const isLoggedIn = useSelector((state) => state.auth.login.success)
+    const loginStatus = useSelector((state) => state.auth.login.status)
     const [loginData, setLoginData] = useState({
-        user_id: "",
-        user_pw: "",
+        user_email: "",
+        user_password: "",
     })
-    const user_id = useRef();
-    const user_pw = useRef();
+    const [errorCode, setErrorCode] = useState(null)
+    const user_email = useRef();
+    const user_password = useRef();
 
     const onChangeHandler = (e) => {
         setLoginData({
@@ -105,34 +108,56 @@ const isLoggedIn = useSelector((state)=> state.auth.login.success)
         if (e.key === "Enter") {
             loginSubmit()
         }
-        const loginSubmit = () => {
+    }
+    const errorHandler = () => {
+        if (!loginData.user_email) {
+            setErrorCode(1)
+            user_email.current.focus();
+            return false
+        } else if (!loginData.user_password) {
+            setErrorCode(2)
+            user_password.current.focus();
+            return false
+        }
+        return true
+    }
 
+    const loginSubmit = () => {
+        if (errorHandler()) {
+            dispatch(appLoginRequest(loginData))
         }
     }
-    useEffect(()=>{
-
-    },[isLoggedIn])
+    useEffect(() => {
+        dispatch(loginInit())
+        if (loginStatus === "SUCCESS") {
+            props.history.push("/")
+        } else if (loginStatus === "FAILURE") {
+            setErrorCode(3)
+        }
+    }, [isLoggedIn,loginStatus])
     return (
         <ThemeProvider theme={theme}>
             <PageStyle>
                 <div className="lay">
                     <img src={'/img/Rozeus_logo.jpg'}/>
                     <article className="login_form">
+                        <ErrorBoxLogin errorCode={errorCode}/>
                         <input
-                            ref={user_id}
-                            id={"user_id"}
+                            ref={user_email}
+                            id={"user_email"}
                             placeholder={"아이디"}
-                            value={loginData.user_id}
+                            value={loginData.user_email}
                             onChange={onChangeHandler}
                             onKeyPress={onChangeHandler}/>
                         <input
-                            ref={user_pw}
-                            id={"user_pw"}
+                            ref={user_password}
+                            id={"user_password"}
+                            type={"password"}
                             placeholder={"비밀번호"}
-                            value={loginData.user_pw}
+                            value={loginData.user_password}
                             onChange={onChangeHandler}
                             onKeyPress={onChangeHandler}/>
-                        <button className={"submit_btn"}>로그인</button>
+                        <button className={"submit_btn"} onClick={loginSubmit}>로그인</button>
                         <div className={"Options"}>
                             <span>아이디 찾기</span>
                             <span>비밀번호 찾기</span>

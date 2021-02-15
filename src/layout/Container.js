@@ -4,15 +4,28 @@ import GlobalHeader from "./GlobalHeader";
 import InsideHeader from "./InsideHeader";
 
 const ContainerStyle = styled.div`
+  width: 100%;
+  .globalHeader{
+  width: 100%;
+  height: 50px;
+  }
+  .component{
+  width: 100%;
+  height: 100%;
+  }
+  @media (max-width: 551px){
+  width: 100%;
+  }
 `
 export default (Component, option) => {
     const Container = (props) => {
         if (option) {
             return (
                 <ContainerStyle>
-                    <GlobalHeader/>
+                    <div className={"globalHeader"}><GlobalHeader/></div>
                     <InsideHeader/>
-                    <Component/>
+                    <div className={"component"}><Component/></div>
+                    <div className={"footer"}></div>
                 </ContainerStyle>
             )
         } else {

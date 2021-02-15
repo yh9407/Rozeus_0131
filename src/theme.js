@@ -1,12 +1,8 @@
-
-import React from "react";
-
 /*
 ${props => props.theme.focusColor};
  */
-
 const theme = {
-    minWidth:"420px",
+    minWidth:"300px",
     maxWidth:"550px",
     mainColor :"#ff9296",
     focusColor:"#ffb4b4",

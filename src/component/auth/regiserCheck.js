@@ -56,24 +56,28 @@ justify-content: center;
 
 const LawList = [
     {
-        list_id: 1,
-        data: "이용약관 동의",
+        list_id: "U",
+        data: "이용약관 동의(필수)",
         checked: false,
     },
     {
-        list_id: 2,
-        data: "기타사항 동의",
+        list_id: "P",
+        data: "기타사항 동의(선택)",
         checked: false,
     },
     {
-        list_id: 3,
-        data: "개인정보 수집 및 이용 동의",
+        list_id: "L",
+        data: "개인정보 수집 및 이용 동의(필수)",
+        checked: false,
+    },
+    {
+        list_id: "E",
+        data:"이메일 수집 동의(필수)",
         checked: false,
     }
 ]
 
-const CheckPage = ({props, setCheckLaw}) => {
-    const [checkItems, setCheckItems] = useState([])
+const CheckPage = ({props, setCheckLaw,checkItems, setCheckItems }) => {
 
     const handleAllCheck = (checked) => {
         if (checked) {
@@ -95,14 +99,13 @@ const CheckPage = ({props, setCheckLaw}) => {
         }
     }
     const nextHandler = () => {
-        if(checkItems.length === 3){
+        if(checkItems.includes("U","L","E")){
             setCheckLaw(true)
         }
         else{
             alert("이용약관에 모두 동의해 주세요")
         }
     }
-    console.log()
     return (
         <CheckPageStyle>
             <div className={"checkPage"}>
@@ -126,18 +129,6 @@ const CheckPage = ({props, setCheckLaw}) => {
                         </div>
                     )
                 })}
-                {/*<div className={"inside"}>*/}
-                {/*    <input type="checkbox" className={"checkbox_style"}/>*/}
-                {/*    <span>이용약관 동의</span>*/}
-                {/*</div>*/}
-                {/*<div className={"inside"}>*/}
-                {/*    <input type="checkbox" className={"checkbox_style"}/>*/}
-                {/*    <span>개인정보 수집 및 이용 동의</span>*/}
-                {/*</div>*/}
-                {/*<div className={"inside"}>*/}
-                {/*    <input type="checkbox" className={"checkbox_style"}/>*/}
-                {/*    <span>기타사항 동의</span>*/}
-                {/*</div>*/}
                 <div className={"buttons"}>
                     <button onClick={() => props.history.push("/login")}>취소</button>
                     <button onClick={() => {

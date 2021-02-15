@@ -8,7 +8,9 @@ import theme from "../theme";
 const HomeStyle = styled.div`
 display: grid;
 grid-template-columns: 1fr 1fr;
-@media all and (max-width: 550px){
+width: 100%;
+@media all and (max-width: 551px){
+width: 100%;
 grid-template-columns: 1fr;
 min-width: ${props => props.theme.minWidth};
 }

@@ -9,6 +9,9 @@ import {
     FACEBOOK_LOGIN,
     LOGIN_BTN,
     LOGOUT,
+    APP_REGISTER_INIT,
+    APP_REGISTER_SUCCESS,
+    APP_REGISTER_FAILURE,
 } from "../actions/authAction";
 
 function getCookie(name) {
@@ -39,22 +42,58 @@ const initialState = {
         name: parseJwt(getCookie("rozeus_test")).name || "",
         email: parseJwt(getCookie("rozeus_test")).email || "",
         social: parseJwt(getCookie("rozeus_test")).social || "",
+        status: "INIT"
     },
+    register: {
+        status: "INIT"
+    }
 }
 export default function auth(state = initialState, action) {
     switch (action.type) {
+        case APP_REGISTER_INIT: {
+            return update(state, {
+                register: {
+                    status: {$set: "WAITING"}
+                }
+            })
+        }
+        case APP_REGISTER_SUCCESS: {
+            return update(state, {
+                register: {
+                    status: {$set: "SUCCESS"}
+                }
+            })
+        }
+        case APP_REGISTER_FAILURE: {
+            return update(state, {
+                register: {
+                    status: {$set: "FAILURE"}
+                }
+            })
+        }
         case LOGIN_INIT: {
             return update(state, {
-                login: {}
+                login: {
+                    status: {$set: "WAITING"}
+                }
             })
         }
         case LOGIN_SUCCESS: {
             return update(state, {
                 login: {
-                    name:{$set:action.data.name},
-                    email:{$set:action.data.email},
+                    name: {$set: action.data.name},
+                    email: {$set: action.data.email},
                     isLoggedIn: {$set: true},
-                    success: {$set: true}
+                    success: {$set: true},
+                    status: {$set: "SUCCESS"}
+
+                }
+            })
+        }
+        case LOGIN_FAILURE: {
+            return update(state, {
+                login: {
+                    status: {$set: "FAILURE"}
                 }
             })
         }
@@ -62,7 +101,7 @@ export default function auth(state = initialState, action) {
             return update(state, {
                 login: {
                     isLoggedIn: {$set: false},
-                    success:{$set:false}
+                    success: {$set: false}
                 }
             })
         }

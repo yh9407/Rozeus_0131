@@ -32,7 +32,7 @@ const InsideHeader = () => {
         <ThemeProvider theme={theme}>
             <HeaderStyle>
                 <div className={"nav_title"}><Link to={"/economy"}><span>경제</span></Link></div>
-                <div className={"nav_title"}>정치</div>
+                <div className={"nav_title"}><Link to={"/myPage"}><span>My</span></Link></div>
                 <div className={"nav_title"}>연예</div>
                 <div className={"nav_title"}>스포츠</div>
                 <div className={"nav_title"}>해외</div>
