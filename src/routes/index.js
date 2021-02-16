@@ -10,6 +10,7 @@ import NaverCallback from "../component/socialLogin/naverCallback";
 import KakaoCallback from "../component/socialLogin/kakaoCallback";
 import Economy from "../page/newsSections/Economy";
 import MyPage from "../page/myPage";
+import MyPageUpdate from "../page/myPageUpdate";
 
 const Router = () => {
     const logBtnClicked = useSelector((state) => state.auth.login.button)
@@ -23,6 +24,7 @@ const Router = () => {
                 <Route exact path="/register" component={Register}/>
                 <Route exact path="/economy" component={Container(Economy,isLoggedIn)}/>
                 <Route exact path="/myPage" component={Container(MyPage,isLoggedIn)}/>
+                <Route exact path="/myPage/update" component={Container(MyPageUpdate,isLoggedIn)}/>
                 <Route exact path="/users/naver" component={NaverCallback}/>
                 <Route exact path="/users/kakao" component={KakaoCallback}/>
             </Switch>

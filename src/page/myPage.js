@@ -2,6 +2,7 @@ import React from "react"
 import styled, {ThemeProvider} from "styled-components"
 import theme from "../theme";
 import {useSelector} from "react-redux";
+import {Link} from "react-router-dom";
 
 const MyPageStyle = styled.div`
 display: grid;
@@ -91,7 +92,7 @@ const MyPage = () => {
         <ThemeProvider theme={theme}>
             <MyPageStyle>
                 <div className="myPage_top">
-                    <div className="options">설정</div>
+                    <div className="options"><button><Link to={"/myPage/update"}>프로필 편집</Link></button></div>
                     <div className="_info">
                         <img src={"/img/rion.jpg"}/>
                         <div className="__name">{userData.name}</div>
